@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Check Amazon main-image size, format, white-background and framing risks locally in your browser before uploading to Seller Central." />
+    <meta name="theme-color" content="#f7f5ef" />
+    <link rel="stylesheet" href="./styles.css" />
+    <title>Amazon Main Image Checker – Preflight Product Photos Before Upload</title>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="./" aria-label="Amazon Main Image Preflight home">AMIP<span>/</span></a>
+      <p class="header-note">Independent preflight tool</p>
+    </header>
+
+    <main>
+      <section class="hero content-width">
+        <p class="eyebrow">Amazon listing image check</p>
+        <h1>Amazon Main Image Preflight</h1>
+        <p class="hero__lede">Check common Amazon main-image risks before uploading to Seller Central.</p>
+        <p class="disclaimer"><strong>Independent tool.</strong> Not affiliated with Amazon. Final decisions are made by Amazon / Seller Central.</p>
+      </section>
+
+      <section class="tool-shell content-width" aria-labelledby="tool-heading">
+        <div class="tool-shell__intro">
+          <div>
+            <p class="eyebrow">Three quick steps</p>
+            <h2 id="tool-heading">Preflight one main image</h2>
+          </div>
+          <ol class="steps" aria-label="Tool steps">
+            <li><span>01</span> Choose</li>
+            <li><span>02</span> Analyze locally</li>
+            <li><span>03</span> Decide next step</li>
+          </ol>
+        </div>
+
+        <div id="dropzone" class="dropzone" tabindex="0" role="button" aria-controls="image-input" aria-describedby="dropzone-help">
+          <div class="dropzone__icon" aria-hidden="true">↑</div>
+          <h3>Drag an image here</h3>
+          <p id="dropzone-help">or choose a JPEG, PNG, TIFF, or GIF from your device</p>
+          <label class="button button--primary" for="image-input">Choose image</label>
+          <input id="image-input" class="visually-hidden" type="file" accept="image/jpeg,image/png,image/tiff,image/gif,image/*" />
+          <p class="privacy-note">Your image stays in this browser tab. It is not uploaded or permanently stored.</p>
+        </div>
+
+        <p id="analysis-status" class="analysis-status" role="status" aria-live="polite"></p>
+
+        <section id="results" class="results" hidden aria-labelledby="results-heading">
+          <h2 id="results-heading" class="visually-hidden">Analysis result</h2>
+          <div id="results-content"></div>
+          <div class="result-actions">
+            <a id="fix-cta" class="button button--primary" href="https://www.photoroom.com/" target="_blank" rel="noreferrer">Fix image with an editor <span aria-hidden="true">↗</span></a>
+            <button id="check-another" class="button button--secondary" type="button">Check another image</button>
+          </div>
+          <p class="cta-note">The editor link is an ordinary Photoroom link until an affiliate URL is configured.</p>
+        </section>
+
+        <aside class="batch-note">
+          <div>
+            <p class="eyebrow">Future experiment</p>
+            <h3>Batch check — coming soon</h3>
+            <p>Check up to 20 product images and export a batch report.</p>
+          </div>
+          <span class="coming-soon">Coming soon</span>
+        </aside>
+      </section>
+
+      <section class="content-width explainer-grid">
+        <article>
+          <p class="eyebrow">01 / Scope</p>
+          <h2>What this checks</h2>
+          <p>Readable image files, measured dimensions, longest side, file type, file size, transparency, and broad aspect-ratio risks. Local visual estimates look at sampled background whiteness, edge contamination, a rough subject box, frame occupancy, and possible borders.</p>
+        </article>
+        <article>
+          <p class="eyebrow">02 / Boundaries</p>
+          <h2>What this cannot check</h2>
+          <p>This tool cannot reliably decide trademark, copyright, misleading presentation, category-specific props, human-model rules, included accessories, exact product match, or complex watermark/text semantics. Those always need manual review.</p>
+        </article>
+      </section>
+
+      <section class="content-width checklist-section">
+        <div>
+          <p class="eyebrow">Amazon main image checklist</p>
+          <h2>Use the result as a pre-upload pause</h2>
+        </div>
+        <ul class="checklist">
+          <li><span>01</span><div><strong>Use a supported, readable file</strong><p>Check the file type, dimensions, and current Seller Central limits.</p></div></li>
+          <li><span>02</span><div><strong>Keep the main background close to white</strong><p>Shadows, props, colored edges, and transparent pixels can create review risk.</p></div></li>
+          <li><span>03</span><div><strong>Make the product easy to see</strong><p>Review the crop and make sure the product occupies a useful portion of the frame.</p></div></li>
+          <li><span>04</span><div><strong>Manually confirm meaning and ownership</strong><p>Only you can confirm the exact product, rights, text, accessories, and category-specific rules.</p></div></li>
+        </ul>
+      </section>
+
+      <section class="content-width why-grid">
+        <article class="why-card">
+          <p class="eyebrow">Why white backgrounds fail</p>
+          <h2>White is more than a color swatch</h2>
+          <p>A pale gray backdrop can look white on a laptop but still leave a visible edge in a marketplace slot. This check samples the frame and flags non-white signals; it does not remove a background or promise acceptance.</p>
+        </article>
+        <article class="why-card">
+          <p class="eyebrow">Why product framing matters</p>
+          <h2>Make the product the first thing the buyer sees</h2>
+          <p>Too much empty space can make a product look tiny in search and detail-page views. The frame estimate is deliberately approximate, so use it as a prompt to inspect the crop—not as a platform verdict.</p>
+        </article>
+      </section>
+
+      <section class="content-width faq-section">
+        <p class="eyebrow">FAQ</p>
+        <h2>Common questions</h2>
+        <details>
+          <summary>Is this an Amazon approval checker?</summary>
+          <p>No. It is an independent preflight tool. Amazon and Seller Central make the final decisions, and category-specific rules can differ.</p>
+        </details>
+        <details>
+          <summary>Does my image leave my device?</summary>
+          <p>No image upload is implemented. The file is decoded in your browser tab, used for the result, and not permanently stored. Anonymous event tracking, when enabled, does not include the file, filename, pixels, EXIF, product name, or user text.</p>
+        </details>
+        <details>
+          <summary>Why does an image get “Needs review”?</summary>
+          <p>Any deterministic warning or best-effort visual warning produces “Needs review”. It means inspect the image and current Amazon guidance before upload—not that the image will be rejected.</p>
+        </details>
+        <details>
+          <summary>Can it remove my background or edit my image?</summary>
+          <p>No. The first experiment only checks the image and offers a separate editor as a next step.</p>
+        </details>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="content-width footer-grid">
+        <p><strong>Amazon Main Image Preflight</strong><br />Independent tool, not affiliated with Amazon.</p>
+        <p>Rules checked: 2026-09-22<br /><a href="https://m.media-amazon.com/images/G/28/AS/AGS/SU/CN_GS_Listing_Optimization_1.1_General_Guidance_EN.pdf" target="_blank" rel="noreferrer">Amazon seller image guidance</a></p>
+        <p>This is a market experiment, not a production SaaS. No accounts, uploads, or subscriptions.</p>
+      </div>
+    </footer>
+
+    <script type="module" src="./main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,12 @@
+node_modules/
+.npm-cache/
+.pnpm-store/
+dist/
+.vite/
+coverage/
+.env
+.env.*
+!.env.example
+*.local
+Thumbs.db
+.DS_Store

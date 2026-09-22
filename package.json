@@ -1,0 +1,17 @@
+{
+  "name": "amazon-image-preflight",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "node scripts/build.mjs",
+    "preview": "node scripts/server.mjs dist",
+    "test": "node --experimental-strip-types --disable-warning=ExperimentalWarning scripts/test-runner.mjs"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.2",
+    "vite": "^6.0.5",
+    "vitest": "^2.1.8"
+  }
+}
