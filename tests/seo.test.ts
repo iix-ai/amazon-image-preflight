@@ -5,6 +5,7 @@ import { join } from "node:path";
 
 const root = fileURLToPath(new URL("..", import.meta.url));
 const canonicalUrl = "https://iix-ai.github.io/amazon-image-preflight/";
+const googleVerificationContent = "nPNz9a1I1R472bInoIXao9xMFYCZg04_dLBXrRK0gLo";
 
 const readProjectFile = (relativePath) => readFile(join(root, relativePath), "utf8");
 
@@ -18,6 +19,9 @@ export default [
       assert.match(index, /<meta name="description" content="Check Amazon product image requirements/);
       assert.match(index, new RegExp(`<link rel="canonical" href="${canonicalUrl.replaceAll(".", "\\.")}" \/>`));
       assert.match(index, /<meta name="robots" content="index, follow" \/>/);
+      const verificationTags = index.match(/<meta name="google-site-verification"[^>]*>/g) || [];
+      assert.equal(verificationTags.length, 1);
+      assert.match(index, new RegExp(`<meta name="google-site-verification" content="${googleVerificationContent}" \/>`));
       assert.match(index, /<meta property="og:type" content="website" \/>/);
       assert.match(index, new RegExp(`<meta property="og:url" content="${canonicalUrl.replaceAll(".", "\\.")}" \/>`));
       assert.match(index, /<meta name="twitter:card" content="summary" \/>/);
