@@ -13,17 +13,23 @@ try {
   if (error?.code !== "ERR_MODULE_NOT_FOUND") throw error;
 }
 
+const copySeoPage = async () => {
+  const rejectedPage = await readFile(join(root, "amazon-main-image-rejected", "index.html"), "utf8");
+  await mkdir(join(outputDirectory, "amazon-main-image-rejected"), { recursive: true });
+  await writeFile(join(outputDirectory, "amazon-main-image-rejected", "index.html"), rejectedPage.replace("../src/styles.css", "../styles.css"), "utf8");
+};
+
 if (vite) {
   await vite.build({ root });
+  await cp(join(sourceDirectory, "styles.css"), join(outputDirectory, "styles.css"));
+  await copySeoPage();
   console.log(`Built with Vite in ${outputDirectory}`);
 } else {
   await rm(outputDirectory, { recursive: true, force: true });
   await mkdir(outputDirectory, { recursive: true });
   const index = await readFile(join(root, "index.html"), "utf8");
   await writeFile(join(outputDirectory, "index.html"), index.replace("./src/styles.css", "./styles.css").replace("./src/main.ts", "./main.js"), "utf8");
-  const rejectedPage = await readFile(join(root, "amazon-main-image-rejected", "index.html"), "utf8");
-  await mkdir(join(outputDirectory, "amazon-main-image-rejected"), { recursive: true });
-  await writeFile(join(outputDirectory, "amazon-main-image-rejected", "index.html"), rejectedPage.replace("../src/styles.css", "../styles.css"), "utf8");
+  await copySeoPage();
   await cp(join(sourceDirectory, "styles.css"), join(outputDirectory, "styles.css"));
   await cp(join(root, "public"), outputDirectory, { recursive: true });
 

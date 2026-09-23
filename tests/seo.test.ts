@@ -104,4 +104,11 @@ export default [
       assert.match(index, /Amazon main image rejected/i);
     },
   },
+  {
+    name: "copies the acquisition page in both build modes",
+    async run() {
+      const buildScript = await readProjectFile("scripts/build.mjs");
+      assert.equal((buildScript.match(/await copySeoPage\(\);/g) || []).length, 2);
+    },
+  },
 ];
