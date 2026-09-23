@@ -5,6 +5,7 @@ import { join } from "node:path";
 
 const root = fileURLToPath(new URL("..", import.meta.url));
 const canonicalUrl = "https://iix-ai.github.io/amazon-image-preflight/";
+const rejectedPageUrl = `${canonicalUrl}amazon-main-image-rejected/`;
 const googleVerificationContent = "nPNz9a1I1R472bInoIXao9xMFYCZg04_dLBXrRK0gLo";
 
 const readProjectFile = (relativePath) => readFile(join(root, relativePath), "utf8");
@@ -60,8 +61,47 @@ export default [
       assert.match(robots, /Allow:\s*\//);
       assert.match(robots, new RegExp(String.raw`Sitemap:\s*${canonicalUrl.replaceAll(".", "\\.")}sitemap\.xml`));
       assert.match(sitemap, /<urlset[^>]+xmlns="http:\/\/www\.sitemaps\.org\/schemas\/sitemap\/0\.9"/);
-      assert.equal((sitemap.match(/<loc>/g) || []).length, 1);
+      assert.equal((sitemap.match(/<loc>/g) || []).length, 2);
       assert.match(sitemap, new RegExp(`<loc>${canonicalUrl.replaceAll(".", "\\.")}<\/loc>`));
+      assert.match(sitemap, new RegExp(`<loc>${rejectedPageUrl.replaceAll(".", "\\.")}<\/loc>`));
+    },
+  },
+  {
+    name: "publishes the rejected-image acquisition page with crawlable metadata",
+    async run() {
+      const page = await readProjectFile("amazon-main-image-rejected/index.html");
+      assert.match(page, /<title>Amazon Main Image Rejected\? Common Causes and What to Check<\/title>/);
+      assert.match(page, /<meta name="description" content="Find common reasons an Amazon main image may be rejected and check the image locally before uploading\." \/>/);
+      assert.match(page, new RegExp(`<link rel="canonical" href="${rejectedPageUrl.replaceAll(".", "\\.")}" \/>`));
+      assert.match(page, /<meta name="robots" content="index, follow" \/>/);
+      assert.match(page, new RegExp(`<meta property="og:url" content="${rejectedPageUrl.replaceAll(".", "\\.")}" \/>`));
+      assert.match(page, /<meta property="og:type" content="article" \/>/);
+      assert.match(page, /<meta name="twitter:card" content="summary" \/>/);
+      assert.equal((page.match(/<h1\b/g) || []).length, 1);
+      assert.doesNotMatch(page, /noindex|nofollow/i);
+      assert.match(page, /sellercentral\.amazon\.com\/help\/hub\/reference\/external\/G1881\?locale=en_us/);
+      for (const phrase of [
+        "Independent tool",
+        "Not affiliated with Amazon",
+        "not an Amazon approval tool",
+        "Amazon \/ Seller Central makes final decisions",
+        "Last reviewed: September 23, 2026",
+        "Deterministic",
+        "Best effort",
+        "Manual review",
+        "Check your Amazon main image",
+      ]) {
+        assert.match(page, new RegExp(phrase, "i"));
+      }
+      assert.match(page, /href="\.\.\/"[^>]*>Check your Amazon main image/);
+    },
+  },
+  {
+    name: "links the homepage to the rejected-image acquisition page",
+    async run() {
+      const index = await readProjectFile("index.html");
+      assert.match(index, /href="\.\/amazon-main-image-rejected\/"/);
+      assert.match(index, /Amazon main image rejected/i);
     },
   },
 ];

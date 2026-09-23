@@ -21,6 +21,9 @@ if (vite) {
   await mkdir(outputDirectory, { recursive: true });
   const index = await readFile(join(root, "index.html"), "utf8");
   await writeFile(join(outputDirectory, "index.html"), index.replace("./src/styles.css", "./styles.css").replace("./src/main.ts", "./main.js"), "utf8");
+  const rejectedPage = await readFile(join(root, "amazon-main-image-rejected", "index.html"), "utf8");
+  await mkdir(join(outputDirectory, "amazon-main-image-rejected"), { recursive: true });
+  await writeFile(join(outputDirectory, "amazon-main-image-rejected", "index.html"), rejectedPage.replace("../src/styles.css", "../styles.css"), "utf8");
   await cp(join(sourceDirectory, "styles.css"), join(outputDirectory, "styles.css"));
   await cp(join(root, "public"), outputDirectory, { recursive: true });
 
