@@ -8,6 +8,12 @@ First real traffic experiment started 2026-09-23. This is a market experiment, n
 
 Amazon sellers will choose a no-login local checker for a concrete pre-upload pause, and a meaningful subset of completed analyses will click through to an image editor.
 
+## Deployment
+
+- Start date: 2026-09-23
+- Commit: `246a10c` (`feat: enable experiment analytics and Photoroom referral`)
+- Public URL: https://iix-ai.github.io/amazon-image-preflight/
+
 ## Funnel events
 
 | Event | Meaning |
