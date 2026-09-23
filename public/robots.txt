@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://iix-ai.github.io/amazon-image-preflight/sitemap.xml
