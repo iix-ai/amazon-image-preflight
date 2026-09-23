@@ -22,9 +22,9 @@ An unfamiliar Amazon seller with an existing product image will use a free, no-l
 
 ## Privacy model
 
-Image processing runs in the browser tab with `File`, `Image`, and Canvas APIs. The selected image is not uploaded, permanently stored, or sent to a third party by this code. Analytics is an adapter with no network endpoint: on localhost it can write anonymous event names to the console; on a deployed hostname it is disabled by default. Events never include filename, image data, pixels, EXIF, product name, or user text.
+Image processing runs in the browser tab with `File`, `Image`, and Canvas APIs. The selected image is not uploaded, permanently stored, or sent to a third party by this code. Production analytics uses the Umami Cloud browser script with website ID `6093a209-3768-405a-a796-101dacf83bec`. The tracker excludes URL search parameters, and the adapter sends only the allowed event name plus the CTA's boolean affiliate classification. Events never include filename, image data, pixels, dimensions, EXIF, product name, or user text.
 
-Allowed event names are `page_view`, `image_selected`, `analysis_completed`, `result_low_risk`, `result_needs_review`, `result_high_risk`, `fix_cta_clicked`, and `check_another_clicked`. The only optional property is `affiliate: boolean` on the fix CTA event.
+Allowed event names are `page_view`, `image_selected`, `analysis_completed`, `result_low_risk`, `result_needs_review`, `result_high_risk`, `fix_cta_clicked`, and `check_another_clicked`. Umami automatically records `page_view`, so the adapter deliberately does not send a duplicate custom event. The only optional custom property is `affiliate: boolean` on the fix CTA event. Analytics honors browser Do Not Track and can be disabled in the static script configuration.
 
 ## Rules and source date
 
@@ -43,6 +43,10 @@ npm run preview
 
 The repository includes a Vite configuration for the normal developer workflow. The checked-in build command also has a dependency-light static build path so the experiment can be assembled in restricted environments; it copies the browser-local TypeScript modules into `dist` as browser JavaScript and keeps the Vite setup available when dependencies are installed.
 
+## Affiliate disclosure
+
+The “Fix image with an editor” CTA uses the Photoroom referral URL `https://refer.photoroom.com/lanlulu`. The page discloses: “We may earn a commission if you purchase through this link.” The checker remains free and usable without clicking the editor link.
+
 ## Experiment status
 
-The implementation is ready for a first usage/outbound-intent experiment once a public static URL is available. See [EXPERIMENT.md](EXPERIMENT.md) for the measurement definitions and [BACKLOG.md](BACKLOG.md) for explicitly deferred work.
+The first real traffic experiment started on 2026-09-23 at [the public static URL](https://iix-ai.github.io/amazon-image-preflight/). See [EXPERIMENT.md](EXPERIMENT.md) for the measurement definitions and [BACKLOG.md](BACKLOG.md) for explicitly deferred work.

@@ -2,7 +2,7 @@
 
 ## Status
 
-Build stage complete locally. This is a market experiment, not a production SaaS. No income, visitor volume, or conversion benchmark is invented before traffic exists.
+First real traffic experiment started 2026-09-23. This is a market experiment, not a production SaaS. No income, visitor volume, or conversion benchmark is invented before traffic exists.
 
 ## Hypothesis
 
@@ -34,11 +34,15 @@ These are definitions, not targets. Real data is required before deciding whethe
 
 ## Current analytics state
 
-The adapter is implemented and fully disableable. It logs safe event summaries only on localhost and has no production endpoint configured. This keeps the image privacy promise while the experiment waits for a deliberately chosen analytics destination.
+Umami Cloud production tracking is enabled with website ID `6093a209-3768-405a-a796-101dacf83bec`. The browser script automatically records `page_view`; the adapter does not emit a duplicate pageview custom event. The adapter maps the remaining funnel events to Umami and only allows the boolean `affiliate` property on `fix_cta_clicked`. URL search parameters are excluded by the tracker configuration. Do Not Track is respected. The adapter remains fully disableable and falls back to safe console summaries when no tracker is available locally.
 
 ## Affiliate state
 
-`AFFILIATE_PHOTOROOM_URL` is intentionally empty. The CTA opens ordinary Photoroom and records `affiliate=false` in the local adapter. Replacing the value with an approved URL is a configuration-only change; no secret is required in this repository.
+`AFFILIATE_PHOTOROOM_URL` is enabled as `https://refer.photoroom.com/lanlulu`. The CTA opens that URL in a new tab with `noopener noreferrer sponsored` and records `affiliate=true`. The page discloses: “We may earn a commission if you purchase through this link.” The tool remains free and the editor CTA is optional.
+
+## Privacy contract
+
+The experiment never sends the image, filename, pixels, dimensions, EXIF, product data, or user input to analytics. Image analysis remains browser-local. Umami receives only the existing event names and, for the editor CTA, the non-sensitive `affiliate: true` classification.
 
 ## What counts as failure
 

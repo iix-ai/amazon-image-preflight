@@ -16,9 +16,31 @@ const safeProperties = (properties = {}) => {
   return { affiliate: properties.affiliate };
 };
 
-export const createAnalyticsAdapter = ({ enabled = false, emit = (event, properties) => console.info("[analytics]", event, properties) } = {}) => ({
+export type UmamiTracker = {
+  track: (event: string, properties?: Record<string, boolean>) => void;
+};
+
+const getGlobalTracker = () => (globalThis as typeof globalThis & { umami?: UmamiTracker }).umami;
+
+export const createAnalyticsAdapter = ({
+  enabled = false,
+  emit = (event, properties) => console.info("[analytics]", event, properties),
+  tracker,
+} = {}) => ({
   track(event, properties = {}) {
-    if (!enabled || !allowedEventSet.has(event)) return;
-    emit(event, safeProperties(properties));
+    if (!enabled || !allowedEventSet.has(event) || event === "page_view") return;
+
+    const safe = safeProperties(properties);
+    const activeTracker = tracker || getGlobalTracker();
+    if (activeTracker?.track) {
+      if (Object.keys(safe).length === 0) {
+        activeTracker.track(event);
+      } else {
+        activeTracker.track(event, safe);
+      }
+      return;
+    }
+
+    emit(event, safe);
   },
 });

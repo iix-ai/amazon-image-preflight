@@ -15,7 +15,7 @@ const resultsContent = document.querySelector("#results-content");
 const fixCta = document.querySelector("#fix-cta");
 const checkAnother = document.querySelector("#check-another");
 const analytics = createAnalyticsAdapter({
-  enabled: DEFAULT_ANALYTICS_ENABLED && ["localhost", "127.0.0.1"].includes(window.location.hostname),
+  enabled: DEFAULT_ANALYTICS_ENABLED,
 });
 const editorUrl = AFFILIATE_PHOTOROOM_URL || PHOTOROOM_FALLBACK_URL;
 
@@ -99,5 +99,3 @@ checkAnother.addEventListener("click", () => {
   resetTool();
   input.focus();
 });
-
-analytics.track("page_view");
